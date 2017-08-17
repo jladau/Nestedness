@@ -20,38 +20,42 @@ java -cp $sJavaDir/Utilities.jar edu.ucsf.BIOM.PrintMetadata.PrintMetadataLaunch
 cut -d\, -f1 temp.0.csv | head --lines=15 > samples-to-keep.csv
 
 #making nestedness graph
+#java -cp $sJavaDir/Autocorrelation.jar edu.ucsf.Nestedness.Grapher.GrapherLauncher --help
+#exit
 java -cp $sJavaDir/Autocorrelation.jar edu.ucsf.Nestedness.Grapher.GrapherLauncher \
 	--sSamplesToKeepPath=$sOutputDir/samples-to-keep.csv \
-	--sDataPath=$sBiomPath \
+	--sBIOMPath=$sBiomPath \
 	--bNormalize=false \
 	--sTaxonRank=$sTaxonRank \
 	--sOutputPath=$sOutputDir/graphs.csv \
 	--rgsSampleMetadataFields=latitude
 
 #loading comparisons
+#java -cp $sJavaDir/Autocorrelation.jar edu.ucsf.Nestedness.ComparisonSelector.ComparisonSelectorLauncher --help
+#exit
 java -Xmx5g -cp $sJavaDir/Autocorrelation.jar edu.ucsf.Nestedness.ComparisonSelector.ComparisonSelectorLauncher \
-	--sDataPath=$sBiomPath \
+	--sBIOMPath=$sBiomPath \
 	--sOutputPath=$sOutputDir/comparisons.csv \
 	--bNormalize=false \
 	--sTaxonRank=$sTaxonRank \
 	--sMetadataField=latitude \
 	--iRandomSeed=1234 \
-	--sMode=$sComparisonMode \
-	--iPairs=250 \
+	--sComparisonMode=$sComparisonMode \
+	--iNestednessPairs=250 \
 	--sSamplesToKeepPath=$sOutputDir/samples-to-keep.csv \
-	--sAxis=$sAxis \
+	--sNestednessAxis=$sAxis \
 	--iPrevalenceMinimum=1
 
 #running statistics
 java -cp $sJavaDir/Autocorrelation.jar edu.ucsf.Nestedness.Calculator.CalculatorLauncher \
-	--sDataPath=$sBiomPath \
+	--sBIOMPath=$sBiomPath \
 	--sOutputPath=$sOutputDir/statistics.csv \
 	--bNormalize=false \
 	--sTaxonRank=$sTaxonRank \
 	--sGraphsPath=$sOutputDir/comparisons.csv \
 	--iNullModelIterations=10000 \
 	--bOrdered=false \
-	--sAxis=$sAxis \
+	--sNestednessAxis=$sAxis \
 	--sSamplesToKeepPath=$sOutputDir/samples-to-keep.csv \
 	--sNullModel=$sNullModel \
 	--iPrevalenceMinimum=1 \

@@ -1,0 +1,170 @@
+------------------
+REQUIRED ARGUMENTS
+------------------
+
+--sAxis:
+	USAGE: Flag for whether to consider sample or observation axis in BIOM table.
+	TYPE: string
+	OPTIONAL: false
+	POSSIBLE VALUES: sample, observation
+	DEFAULT VALUE: na
+
+--sBIOMPath:
+	USAGE: Absolute path to a file containing an OTU table. File should be in BIOM format (HDF5). Should include 'latitude', 'longitude', 'datetime', and optionally 'vert' sample metadata fields.
+	TYPE: string
+	OPTIONAL: false
+	POSSIBLE VALUES: path to a biom file
+	DEFAULT VALUE: na
+
+--sOutputPath:
+	USAGE: Path for writing output.
+	TYPE: string
+	OPTIONAL: false
+	POSSIBLE VALUES: any valid path
+	DEFAULT VALUE: na
+
+
+------------------
+OPTIONAL ARGUMENTS
+------------------
+
+--bCheckRarefied:
+	USAGE: Flag for whether to check for rarefaction. If enabled and table is not rarefied, error will be thrown.
+	TYPE: boolean
+	OPTIONAL: true
+	POSSIBLE VALUES: true, false
+	DEFAULT VALUE: true
+
+--bNormalize:
+	USAGE: Flag for whether to normalize within each sample so that entries total to 1.
+	TYPE: boolean
+	OPTIONAL: true
+	POSSIBLE VALUES: true, false
+	DEFAULT VALUE: false
+
+--bPresenceAbsence:
+	USAGE: Flag for whether data should be reduced to presence-absence data.
+	TYPE: boolean
+	OPTIONAL: true
+	POSSIBLE VALUES: true, false
+	DEFAULT VALUE: false
+
+--iBootstrapRandomSeed:
+	USAGE: Random seed for bootstrapping training data. Default is no bootstrapping.
+	TYPE: integer
+	OPTIONAL: true
+	POSSIBLE VALUES: any integer
+	DEFAULT VALUE: na
+
+--iPrevalenceMaximum:
+	USAGE: Maximum prevalence: observations that occur in more samples will be omitted from analysis.
+	TYPE: integer
+	OPTIONAL: true
+	POSSIBLE VALUES: positive integer
+	DEFAULT VALUE: na
+
+--iPrevalenceMinimum:
+	USAGE: Minimum prevalence: observations that occur in fewer samples will be omitted from analysis.
+	TYPE: integer
+	OPTIONAL: true
+	POSSIBLE VALUES: non-negative integer
+	DEFAULT VALUE: inifinty
+
+--iRandomObservationSubsetSize:
+	USAGE: Number of randomly chosen observations to use. Useful for analyzing large data tables quickly.
+	TYPE: integer
+	OPTIONAL: true
+	POSSIBLE VALUES: positive integer
+	DEFAULT VALUE: na
+
+--iRandomSampleSubsetSize:
+	USAGE: Number of randomly chosen samples to use. Useful for analyzing large data tables quickly.
+	TYPE: integer
+	OPTIONAL: true
+	POSSIBLE VALUES: positive integer
+	DEFAULT VALUE: na
+
+--iRandomSubsetSeed:
+	USAGE: Random seed for taking random subset of samples or observations.
+	TYPE: integer
+	OPTIONAL: true
+	POSSIBLE VALUES: any integer
+	DEFAULT VALUE: na
+
+--iRarefactionTotal:
+	USAGE: Total count to which to rarefy samples. Values of zero or less (except -9999 which is a flag for no rarefaction) result in rarefaction to the number of sequences in the sample with the fewest sequences.
+	TYPE: integer
+	OPTIONAL: true
+	POSSIBLE VALUES: any integer
+	DEFAULT VALUE: na
+
+--rgsObservationMetadataKeys:
+	USAGE: Observations metadata keys to load from metadata file.
+	TYPE: string
+	OPTIONAL: true
+	POSSIBLE VALUES: comma-delimited list
+	DEFAULT VALUE: na
+
+--rgsRequiredObservationMetadata:
+	USAGE: Comma-delimited list of observation metadata keys. Samples lacking data for one or more of these keys will be omitted.
+	TYPE: string
+	OPTIONAL: true
+	POSSIBLE VALUES: comma-delimited list
+	DEFAULT VALUE: na
+
+--rgsRequiredSampleMetadata:
+	USAGE: Comma-delimited list of sample metadata keys. Samples lacking data for one or more of these keys will be omitted.
+	TYPE: string
+	OPTIONAL: true
+	POSSIBLE VALUES: comma-delimited list
+	DEFAULT VALUE: na
+
+--rgsSampleMetadataKeys:
+	USAGE: Sample metadata keys to load from metadata file.
+	TYPE: string
+	OPTIONAL: true
+	POSSIBLE VALUES: comma-delimited list
+	DEFAULT VALUE: na
+
+--sMergeSamplesPath:
+	USAGE: Path to file for merging samples with the following headers: sample_id_old, sample_id_new, latitude_new, longitude_new, datetime_new.
+	TYPE: string
+	OPTIONAL: true
+	POSSIBLE VALUES: path to csv file
+	DEFAULT VALUE: na
+
+--sObservationMetadataPath:
+	USAGE: Path to text file containing observation metadata formatted according to http://biom-format.org/documentation/adding_metadata.html. For use if BIOM file does not contain metadata. Must include "id" field giving observation IDs.
+	TYPE: string
+	OPTIONAL: true
+	POSSIBLE VALUES: path to csv file
+	DEFAULT VALUE: na
+
+--sObservationsToKeepPath:
+	USAGE: Path to file with list of observations to keep. File should contain a list of observation names.
+	TYPE: string
+	OPTIONAL: true
+	POSSIBLE VALUES: path to text file
+	DEFAULT VALUE: na
+
+--sSampleMetadataPath:
+	USAGE: Path to text file containing sample metadata formatted according to http://biom-format.org/documentation/adding_metadata.html. For use if BIOM file does not contain metadata. Must include 'id', 'datetime' and 'latitude', 'longitude' or 'x','y' fields
+	TYPE: string
+	OPTIONAL: true
+	POSSIBLE VALUES: path to csv file
+	DEFAULT VALUE: na
+
+--sSamplesToKeepPath:
+	USAGE: Path to file with list of samples to keep. File should contain a list of sample names, one per line.
+	TYPE: string
+	OPTIONAL: true
+	POSSIBLE VALUES: path to text file
+	DEFAULT VALUE: na
+
+--sTaxonRank:
+	USAGE: Taxonomic units on which to collapse table. The value of "otu" will cause table to not be modified.
+	TYPE: string
+	OPTIONAL: true
+	POSSIBLE VALUES: kingdom, phylum, class, order, family, genus, species, otu
+	DEFAULT VALUE: otu
+

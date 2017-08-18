@@ -13,15 +13,15 @@ mkdir -p $sOutputDir
 cd $sOutputDir
 
 #loading sample subset
+#java -cp $sJavaDir/Utilities.jar edu.ucsf.BIOM.PrintMetadata.PrintMetadataLauncher --help > $sIODir/doc/Utilities.edu.ucsf.BIOM.PrintMetadata.PrintMetadataLauncher.txt
 java -cp $sJavaDir/Utilities.jar edu.ucsf.BIOM.PrintMetadata.PrintMetadataLauncher \
-	--sDataPath=$sBiomPath \
+	--sBIOMPath=$sBiomPath \
 	--sOutputPath=$sOutputDir/temp.0.csv \
 	--sAxis=sample
 cut -d\, -f1 temp.0.csv | head --lines=15 > samples-to-keep.csv
 
 #making nestedness graph
-#java -cp $sJavaDir/Autocorrelation.jar edu.ucsf.Nestedness.Grapher.GrapherLauncher --help
-#exit
+#java -cp $sJavaDir/Autocorrelation.jar edu.ucsf.Nestedness.Grapher.GrapherLauncher --help > $sIODir/doc/Autocorrelation.edu.ucsf.Nestedness.Grapher.GrapherLauncher.txt
 java -cp $sJavaDir/Autocorrelation.jar edu.ucsf.Nestedness.Grapher.GrapherLauncher \
 	--sSamplesToKeepPath=$sOutputDir/samples-to-keep.csv \
 	--sBIOMPath=$sBiomPath \
@@ -31,8 +31,7 @@ java -cp $sJavaDir/Autocorrelation.jar edu.ucsf.Nestedness.Grapher.GrapherLaunch
 	--rgsSampleMetadataFields=latitude
 
 #loading comparisons
-#java -cp $sJavaDir/Autocorrelation.jar edu.ucsf.Nestedness.ComparisonSelector.ComparisonSelectorLauncher --help
-#exit
+#java -cp $sJavaDir/Autocorrelation.jar edu.ucsf.Nestedness.ComparisonSelector.ComparisonSelectorLauncher --help > $sIODir/doc/Autocorrelation.edu.ucsf.Nestedness.ComparisonSelector.ComparisonSelectorLauncher.txt
 java -Xmx5g -cp $sJavaDir/Autocorrelation.jar edu.ucsf.Nestedness.ComparisonSelector.ComparisonSelectorLauncher \
 	--sBIOMPath=$sBiomPath \
 	--sOutputPath=$sOutputDir/comparisons.csv \
@@ -47,17 +46,18 @@ java -Xmx5g -cp $sJavaDir/Autocorrelation.jar edu.ucsf.Nestedness.ComparisonSele
 	--iPrevalenceMinimum=1
 
 #running statistics
+#java -cp $sJavaDir/Autocorrelation.jar edu.ucsf.Nestedness.Calculator.CalculatorLauncher --help > $sIODir/doc/Autocorrelation.edu.ucsf.Nestedness.Calculator.CalculatorLauncher.txt
 java -cp $sJavaDir/Autocorrelation.jar edu.ucsf.Nestedness.Calculator.CalculatorLauncher \
 	--sBIOMPath=$sBiomPath \
 	--sOutputPath=$sOutputDir/statistics.csv \
 	--bNormalize=false \
 	--sTaxonRank=$sTaxonRank \
-	--sGraphsPath=$sOutputDir/comparisons.csv \
+	--sComparisonsPath=$sOutputDir/comparisons.csv \
 	--iNullModelIterations=10000 \
-	--bOrdered=false \
+	--bOrderedNODF=false \
 	--sNestednessAxis=$sAxis \
 	--sSamplesToKeepPath=$sOutputDir/samples-to-keep.csv \
-	--sNullModel=$sNullModel \
+	--sNestednessNullModel=$sNullModel \
 	--iPrevalenceMinimum=1 \
 	--bSimulate=false
 
